@@ -8,7 +8,6 @@ import { hideNotification } from '../../store/modules/Notification/notificationS
 export const SnackBarComp: React.FC = () => {
 	const notification = useAppSelector((state) => state.notification);
 
-	// Disparar actions
 	const dispatch = useAppDispatch();
 
 	return (

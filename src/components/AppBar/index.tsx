@@ -18,13 +18,11 @@ interface ResponsiveAppBarProps {
 	IconFile: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
 		muiName: string;
 	};
-	title: string;
 }
 
 const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 	IconFile,
 	IconHome,
-	title,
 }) => {
 	const navigate = useNavigate();
 	const [filterTitle, setFilterTitle] = useState<string>();

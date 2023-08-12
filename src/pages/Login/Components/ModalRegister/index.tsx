@@ -85,17 +85,6 @@ const ModalOpen: React.FC<ModalOpenProps> = ({ open, changeState }) => {
 		}
 	}, [name]);
 
-	const handleCloseSnack = (
-		event: React.SyntheticEvent | Event,
-		reason?: string,
-	) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setError(false);
-	};
-
 	const handleClose = () => {
 		changeState(false);
 	};

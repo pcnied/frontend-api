@@ -15,6 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				margin: '0px',
 				zIndex: '-1',
 				minHeight: '100vh',
+				minWidth: '100%',
 				background: '#008B8B',
 			}}
 		>

@@ -12,8 +12,6 @@ const FormLogin = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const [isError, setIsError] = useState<boolean>(false);
-	const [message, setMessage] = useState<string>('');
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const navigate = useNavigate();
@@ -22,31 +20,6 @@ const FormLogin = () => {
 	const { message: messageSlice } = useAppSelector(
 		(state) => state.notification,
 	);
-
-	const verifySnack = (emailIsValid: boolean, senhaIsValid: boolean) => {
-		if (emailIsValid === false) {
-			setMessage('Erro! Verifique seus dados.');
-			setIsError(!emailIsValid);
-			return;
-		}
-
-		if (senhaIsValid === false) {
-			setMessage('Erro! Verifique seus dados.');
-			setIsError(!senhaIsValid);
-			return;
-		}
-	};
-
-	const handleCloseSnack = (
-		event: React.SyntheticEvent | Event,
-		reason?: string,
-	) => {
-		if (reason === 'clickaway') {
-			return;
-		}
-
-		setIsError(false);
-	};
 
 	const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
 		ev.preventDefault();
@@ -71,7 +44,7 @@ const FormLogin = () => {
 		if (token) {
 			navigate('/home');
 		}
-	}, []);
+	}, [navigate]);
 
 	useEffect(() => {
 		if (messageSlice === 'Login efetuado com sucesso!') {
@@ -85,8 +58,8 @@ const FormLogin = () => {
 			<Box
 				component={'form'}
 				sx={{
-					maxWidth: '75%',
-					height: '400px',
+					maxWidth: '100%',
+					maxHeight: '100%',
 					background: 'white',
 					display: 'flex',
 					alignItems: 'center',
@@ -95,7 +68,7 @@ const FormLogin = () => {
 				}}
 				onSubmit={handleSubmit}
 			>
-				<Grid container spacing={2} sm={12} xs={12} md={12}>
+				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<TextField
 							type="email"
