@@ -71,7 +71,7 @@ export const ModalAnotations: React.FC<ModalAnotationsProps> = ({
 					dispatch(
 						updateAnotation({
 							_id: anotationSelected._id,
-							_userId: id,
+							_userId: anotationSelected._userId,
 							_title: title,
 							_description: description,
 							_date: date,

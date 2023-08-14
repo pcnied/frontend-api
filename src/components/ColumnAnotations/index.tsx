@@ -42,22 +42,23 @@ const ColumnAnotation: React.FC<ArchivedProps> = ({ archived }) => {
 			</Grid>
 
 			<Divider />
-			<Grid item xs={6} sm={12} md={12} margin={2}>
-				{listAnotations
-					.filter(
-						(anotation) =>
-							anotation._userId === JSON.parse(userLogged) &&
-							anotation._archived === archived,
-					)
-					.map((anotation) => {
-						return (
+
+			{listAnotations
+				.filter(
+					(anotation) =>
+						anotation._userId === JSON.parse(userLogged) &&
+						anotation._archived === archived,
+				)
+				.map((anotation) => {
+					return (
+						<Grid key={anotation._id} item xs={12} md={3}>
 							<ItemAnotation
 								key={anotation._id}
 								anotation={anotation}
 							/>
-						);
-					})}
-			</Grid>
+						</Grid>
+					);
+				})}
 		</>
 	);
 };

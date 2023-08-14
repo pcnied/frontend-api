@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../store/hooks';
 import { getAnotation } from '../../store/modules/Anotations/anotationsSlice';
+import { logout } from '../../store/modules/User/usersSlice';
 
 interface ResponsiveAppBarProps {
 	IconHome: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
@@ -38,14 +39,14 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 				userId: JSON.parse(userLogged),
 			}),
 		);
-	}, [filterTitle]);
+	}, [dispatch, filterTitle, userLogged]);
 
 	useEffect(() => {
 		const token = sessionStorage.getItem('userLogged');
 		if (!token) {
 			navigate('/');
 		}
-	}, [navigate]);
+	}, []);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -87,6 +88,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 						<LogoutOutlined
 							onClick={() => {
 								sessionStorage.removeItem('userLogged');
+								dispatch(logout());
 								navigate('/');
 							}}
 						/>

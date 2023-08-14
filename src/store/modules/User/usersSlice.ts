@@ -46,7 +46,7 @@ export const loginUser = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Login efetuado com sucesso!',
+					message: 'Requisição efetuada com sucesso!',
 					success: true,
 				}),
 			);
@@ -66,16 +66,22 @@ export const loginUser = createAsyncThunk(
 	},
 );
 
+const initialState = {
+	user: {
+		name: '',
+		id: '',
+	},
+	loading: false,
+};
+
 const usersSlice = createSlice({
 	name: 'user',
-	initialState: {
-		user: {
-			name: '',
-			id: '',
+	initialState,
+	reducers: {
+		logout: () => {
+			return initialState;
 		},
-		loading: false,
 	},
-	reducers: {},
 	extraReducers: (builder) => {
 		// CREATE USER
 		builder.addCase(createUser.pending, (state) => {
@@ -109,5 +115,7 @@ const usersSlice = createSlice({
 		});
 	},
 });
+
+export const { logout } = usersSlice.actions;
 
 export default usersSlice.reducer;

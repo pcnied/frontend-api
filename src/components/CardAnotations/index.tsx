@@ -22,7 +22,11 @@ const CardAnotations: React.FC<ArchivedProps> = ({ archived }) => {
 							borderRadius: '10px',
 						}}
 					>
-						<Grid container xs={12}>
+						<Grid
+							container
+							justifyContent={'center'}
+							rowSpacing={5}
+						>
 							<ColumnAnotation archived={archived} />
 						</Grid>
 					</Paper>

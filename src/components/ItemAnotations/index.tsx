@@ -32,7 +32,6 @@ const ItemAnotation: React.FC<ItemAnotationProps> = ({ anotation }) => {
 		<>
 			<Grid
 				key={anotation._id}
-				xs={12}
 				container
 				marginY={2}
 				flexDirection="column"
@@ -40,10 +39,13 @@ const ItemAnotation: React.FC<ItemAnotationProps> = ({ anotation }) => {
 					border: '1px solid black',
 					borderRadius: '5px',
 					padding: '10px',
+					maxWidth: '100%',
 				}}
 			>
 				<Grid xs={12}>
-					<Typography variant="h5">{anotation._title}</Typography>
+					<Typography sx={{ wordWrap: 'break-word' }} variant="h5">
+						{anotation._title}
+					</Typography>
 				</Grid>
 				<Divider
 					sx={{
@@ -54,13 +56,15 @@ const ItemAnotation: React.FC<ItemAnotationProps> = ({ anotation }) => {
 						justifyContent: 'center',
 					}}
 				></Divider>
-				<Grid xs={12}>
-					<Typography>{anotation._description}</Typography>
+				<Grid item xs={12}>
+					<Typography sx={{ wordWrap: 'break-word' }}>
+						{anotation._description}
+					</Typography>
 				</Grid>
-				<Grid>
+				<Grid item>
 					<Typography>{anotation._date}</Typography>
 				</Grid>
-				<Grid item xs={12} sm={6}>
+				<Grid item>
 					<Stack direction="row" spacing={2}>
 						<IconButton
 							color="error"

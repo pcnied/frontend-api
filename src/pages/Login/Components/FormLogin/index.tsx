@@ -11,15 +11,12 @@ import ModalOpen from '../ModalRegister';
 const FormLogin = () => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	const { message: messageSlice } = useAppSelector(
-		(state) => state.notification,
-	);
+	const id = useAppSelector((state) => state.users.user.id);
 
 	const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
 		ev.preventDefault();
@@ -47,11 +44,10 @@ const FormLogin = () => {
 	}, [navigate]);
 
 	useEffect(() => {
-		if (messageSlice === 'Login efetuado com sucesso!') {
+		if (id) {
 			navigate('/home');
 		}
-		console.log(messageSlice);
-	}, [messageSlice, navigate]);
+	}, [id, navigate]);
 
 	return (
 		<>

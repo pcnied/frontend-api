@@ -5,8 +5,6 @@ interface LayoutProps {
 	children: React.ReactNode;
 }
 
-const background = '#191970';
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<Box
@@ -15,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				margin: '0px',
 				zIndex: '-1',
 				minHeight: '100vh',
-				minWidth: '100%',
+				maxWidth: '100vw',
 				background: '#008B8B',
 			}}
 		>
