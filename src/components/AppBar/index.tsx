@@ -10,13 +10,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../store/hooks';
 import { getAnotation } from '../../store/modules/Anotations/anotationsSlice';
-import { logout } from '../../store/modules/User/usersSlice';
+import { logoutUser } from '../../store/modules/User/usersSlice';
 
 interface ResponsiveAppBarProps {
-	IconHome: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+	IconHome: OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
 		muiName: string;
 	};
-	IconFile: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+	IconFile: OverridableComponent<SvgIconTypeMap<object, 'svg'>> & {
 		muiName: string;
 	};
 }
@@ -26,7 +26,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 	IconHome,
 }) => {
 	const navigate = useNavigate();
-	const [filterTitle, setFilterTitle] = useState<string>();
+	const [filterTitle, setFilterTitle] = useState<string>("");
 	const [userLogged, setUserLogged] = useState(
 		sessionStorage.getItem('userLogged') as string,
 	);
@@ -42,11 +42,31 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 	}, [dispatch, filterTitle, userLogged]);
 
 	useEffect(() => {
-		const token = sessionStorage.getItem('userLogged');
-		if (!token) {
-			navigate('/');
+		const userId = userLogged ? JSON.parse(userLogged)?.userId : null;
+
+		if (!userId) {
+			return;
 		}
-	}, []);
+
+		dispatch(getAnotation({ title: filterTitle, userId: JSON.parse(userLogged), }));
+	}, [dispatch, filterTitle, userLogged]);
+
+	useEffect(() => {
+		const handleStorageChange = () => {
+			const token = sessionStorage.getItem('userLogged');
+			if (!token) {
+				navigate('/');
+			}
+		};
+
+		window.addEventListener('storage', handleStorageChange);
+
+		handleStorageChange();
+
+		return () => {
+			window.removeEventListener('storage', handleStorageChange);
+		};
+	}, [navigate]);
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
@@ -54,7 +74,7 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 				position="static"
 				sx={{
 					background: 'white',
-					height: '90px',
+					height: '85px',
 					display: 'flex',
 					justifyContent: 'center',
 				}}
@@ -81,17 +101,22 @@ const ResponsiveAppBar: React.FC<ResponsiveAppBarProps> = ({
 							label={'Procurar anotação...'}
 							sx={{
 								width: '500px',
+
 							}}
 						></TextField>
 					</Grid>
-					<IconButton sx={{ color: 'black' }}>
-						<LogoutOutlined
-							onClick={() => {
-								sessionStorage.removeItem('userLogged');
-								dispatch(logout());
-								navigate('/');
-							}}
-						/>
+					<IconButton
+						sx={{ color: 'black' }}
+						onClick={async () => {
+							sessionStorage.removeItem('userLogged');
+
+							await dispatch(logoutUser());
+
+							setFilterTitle('');
+							navigate('/');
+						}}
+					>
+						<LogoutOutlined />
 					</IconButton>
 				</Toolbar>
 			</AppBar>

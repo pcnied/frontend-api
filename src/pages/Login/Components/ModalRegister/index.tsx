@@ -8,10 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { SnackBarComp } from '../../../../components/SnackBar';
+import { Notification } from '../../../../components/Notification';
 import { useAppDispatch } from '../../../../store/hooks';
 import { createUser } from '../../../../store/modules/User/usersSlice';
-import { emailRegex } from '../../../../utils/validators/regexDados';
+import { regexEmail } from '../../../../utils/validators/regexEmail';
 import { IsValidCredentials } from '../../types/IsValidCredentials';
 import { CreateUser } from '../../types/user';
 
@@ -43,7 +43,7 @@ const ModalOpen: React.FC<ModalOpenProps> = ({ open, changeState }) => {
 	});
 
 	useEffect(() => {
-		if (email.length && !emailRegex.test(email)) {
+		if (email.length && !regexEmail.test(email)) {
 			setErrorEmail({
 				helperText: 'Informe um e-mail válido.',
 				isValid: false,
@@ -196,7 +196,7 @@ const ModalOpen: React.FC<ModalOpenProps> = ({ open, changeState }) => {
 					</Button>
 				</DialogActions>
 			</Box>
-			<SnackBarComp />
+			<Notification />
 		</Dialog>
 	);
 };

@@ -1,11 +1,11 @@
-import { emailRegex } from '../regexDados';
+import { regexEmail } from '../regexEmail';
 
 export const emailValidator = (email: string): boolean => {
 	if (!email) {
 		return false;
 	}
 
-	if (!emailRegex.test(email)) {
+	if (!regexEmail.test(email)) {
 		return false;
 	}
 

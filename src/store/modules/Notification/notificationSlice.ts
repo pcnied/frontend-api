@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface Notification {
 	show: boolean;
-	message: string;
+	status: string;
 	success: boolean;
 }
 
 const initialState: Notification = {
 	show: false,
-	message: '',
+	status: '',
 	success: false,
 };
 

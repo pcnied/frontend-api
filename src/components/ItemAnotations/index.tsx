@@ -1,5 +1,12 @@
 import { Delete, Edit, FolderTwoTone } from '@mui/icons-material';
-import { Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+import {
+	Box,
+	Divider,
+	Grid,
+	IconButton,
+	Stack,
+	Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 
 import { useAppDispatch } from '../../store/hooks';
@@ -30,74 +37,97 @@ const ItemAnotation: React.FC<ItemAnotationProps> = ({ anotation }) => {
 
 	return (
 		<>
-			<Grid
+			<Box
 				key={anotation._id}
-				container
-				marginY={2}
-				flexDirection="column"
 				sx={{
-					border: '1px solid black',
-					borderRadius: '5px',
-					padding: '10px',
-					maxWidth: '100%',
+					border: '1px solid #E0E0E0',
+					background: 'linear-gradient(145deg, #f5f5f5, #e0e0e0)',
+					borderRadius: '10px',
+					padding: '16px',
+					boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+					transition: 'transform 0.2s ease',
+					'&:hover': {
+						transform: 'scale(1.02)',
+					},
 				}}
 			>
-				<Grid xs={12}>
-					<Typography sx={{ wordWrap: 'break-word' }} variant="h5">
-						{anotation._title}
-					</Typography>
-				</Grid>
-				<Divider
-					sx={{
-						width: '100%',
-						background: 'black',
-						marginY: '8px',
-						display: 'flex',
-						justifyContent: 'center',
-					}}
-				></Divider>
-				<Grid item xs={12}>
-					<Typography sx={{ wordWrap: 'break-word' }}>
-						{anotation._description}
-					</Typography>
-				</Grid>
-				<Grid item>
-					<Typography>{anotation._date}</Typography>
-				</Grid>
-				<Grid item>
-					<Stack direction="row" spacing={2}>
-						<IconButton
-							color="error"
-							aria-label="delete"
-							onClick={() => {
-								setOpen(true);
-								setDelet(false);
-								setUpdate(true);
+				<Grid container flexDirection="column" spacing={2}>
+					<Grid item xs={12}>
+						<Typography
+							variant="h5"
+							sx={{
+								wordWrap: 'break-word',
+								color: '#333',
 							}}
 						>
-							<Delete />
-						</IconButton>
-						<IconButton
-							color="success"
-							aria-label="edit"
-							onClick={() => {
-								setOpen(true);
-								setUpdate(false);
-								setDelet(true);
+							{anotation._title}
+						</Typography>
+					</Grid>
+
+					<Divider
+						sx={{
+							width: '100%',
+							backgroundColor: '#BDBDBD',
+							marginY: '12px',
+						}}
+					/>
+
+					<Grid item xs={12}>
+						<Typography
+							variant="body1"
+							sx={{ wordWrap: 'break-word', color: '#555' }}
+						>
+							{anotation._description}
+						</Typography>
+					</Grid>
+
+					<Grid item>
+						<Typography
+							variant="caption"
+							sx={{
+								color: '#9E9E9E',
+								fontStyle: 'italic',
 							}}
 						>
-							<Edit />
-						</IconButton>
-						<IconButton
-							color="primary"
-							aria-label="edit"
-							onClick={handleArchived}
-						>
-							<FolderTwoTone />
-						</IconButton>
-					</Stack>
+							{anotation._date}
+						</Typography>
+					</Grid>
+
+					<Grid item>
+						<Stack direction="row" spacing={1}>
+							<IconButton
+								color="error"
+								onClick={() => {
+									setOpen(true);
+									setDelet(false);
+									setUpdate(true);
+								}}
+							>
+								<Delete />
+							</IconButton>
+
+							<IconButton
+								color="success"
+								onClick={() => {
+									setOpen(true);
+									setUpdate(false);
+									setDelet(true);
+								}}
+							>
+								<Edit />
+							</IconButton>
+
+							<IconButton
+								color="primary"
+								onClick={handleArchived}
+							>
+								<FolderTwoTone />
+							</IconButton>
+						</Stack>
+					</Grid>
 				</Grid>
-			</Grid>
+			</Box>
+
 			<ModalAnotations
 				context={update ? 'delete' : 'update'}
 				open={open}

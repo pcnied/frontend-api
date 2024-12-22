@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-const serviceAPI = axios.create({
-	baseURL: import.meta.env.VITE_API_URL,
+const baseURL =
+	import.meta.env.MODE === 'development'
+		? 'http://localhost:3000/' // URL para desenvolvimento
+		: import.meta.env.VITE_API_URL; // URL para produção (definida no .env)
+
+const api = axios.create({
+	baseURL: baseURL,
 });
 
-export default serviceAPI;
+export default api;

@@ -30,35 +30,56 @@ const ColumnAnotation: React.FC<ArchivedProps> = ({ archived }) => {
 		console.log(listAnotations);
 	}, []);
 
+	const filteredAnotations = listAnotations.filter(
+		(anotation) =>
+			anotation._userId === JSON.parse(userLogged) &&
+			anotation._archived === archived,
+	);
+
 	return (
 		<>
 			<Grid item xs={12}>
 				<Typography
-					variant="h3"
-					sx={{ display: 'flex', justifyContent: 'center' }}
+					variant="h4"
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						marginBottom: '16px',
+					}}
 				>
-					ANOTAÇÕES
+					{archived ? 'ANOTAÇÕES ARQUIVADAS' : 'ANOTAÇÕES'}
 				</Typography>
 			</Grid>
 
-			<Divider />
-
-			{listAnotations
-				.filter(
-					(anotation) =>
-						anotation._userId === JSON.parse(userLogged) &&
-						anotation._archived === archived,
-				)
-				.map((anotation) => {
-					return (
-						<Grid key={anotation._id} item xs={12} md={3}>
-							<ItemAnotation
-								key={anotation._id}
-								anotation={anotation}
-							/>
+			<Grid container spacing={2} sx={{ justifyContent: 'center', padding: '16px' }}>
+				{filteredAnotations.length > 0 ? (
+					filteredAnotations.map((anotation) => (
+						<Grid key={anotation._id} item xs={12} md={3} sm={6} margin={'8px'}>
+							<ItemAnotation key={anotation._id} anotation={anotation} />
 						</Grid>
-					);
-				})}
+					))
+				) : (
+					<Grid
+					item
+					xs={12}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
+					<Typography
+						sx={{
+							fontSize: '16px',
+							color: '#757575',
+							marginTop: '12px',
+						}}
+					>
+						Nenhuma anotação encontrada.
+					</Typography>
+				</Grid>
+				)}
+			</Grid>
 		</>
 	);
 };

@@ -1,9 +1,9 @@
 import FolderCopyRoundedIcon from '@mui/icons-material/FolderCopyRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { Notification } from '../../components/Notification';
 
 import ResponsiveAppBar from '../../components/AppBar';
 import CardAnotations from '../../components/CardAnotations';
-import Section from '../../components/Section';
 
 const Anotations = () => {
 	return (
@@ -13,9 +13,8 @@ const Anotations = () => {
 				IconHome={HomeOutlinedIcon}
 			/>
 
-			<Section />
-
 			<CardAnotations archived={true} />
+			<Notification />
 		</>
 	);
 };

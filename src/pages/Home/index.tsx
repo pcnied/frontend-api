@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 
 import ResponsiveAppBar from '../../components/AppBar';
 import CardAnotations from '../../components/CardAnotations';
-import Section from '../../components/Section';
+import { Notification } from '../../components/Notification';
 
 const Home = () => {
 	return (
@@ -21,9 +21,9 @@ const Home = () => {
 					alignItems: 'center',
 				}}
 			>
-				<Section />
 
 				<CardAnotations archived={false} />
+				<Notification />
 			</Grid>
 		</>
 	);

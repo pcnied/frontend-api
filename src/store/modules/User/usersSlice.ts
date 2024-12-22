@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import serviceAPI from '../../../configs/services/integration.api';
-import { CreateUser, User } from '../../../pages/Login/types/user';
+import { CreateUser, UserLogged } from '../../../pages/Login/types/user';
 import { showNotification } from '../Notification/notificationSlice';
 
 export const createUser = createAsyncThunk(
@@ -16,28 +16,27 @@ export const createUser = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Usurário criado com sucesso!',
+					status: response.data.status,
 					success: true,
 				}),
 			);
 
 			return response.data;
-		} catch (erro: any) {
+		} catch (error: any) {
 			dispatch(
 				showNotification({
-					message:
-						'E-mail já utilizado por outro usuário. Tente novamente!',
+					status: error.response.data.status,
 					success: false,
 				}),
 			);
-			return erro.response.data;
+			return error.response.data;
 		}
 	},
 );
 
 export const loginUser = createAsyncThunk(
 	'users/login',
-	async (infoLogin: User, { dispatch }) => {
+	async (infoLogin: UserLogged, { dispatch }) => {
 		try {
 			const response = await serviceAPI.post('/users/signin', {
 				email: infoLogin.email,
@@ -46,23 +45,36 @@ export const loginUser = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Requisição efetuada com sucesso!',
+					status: response.data.status,
 					success: true,
 				}),
 			);
 
 			return response.data;
 		} catch (error: any) {
-			console.log(error);
 			dispatch(
 				showNotification({
-					message:
-						'O usuário não foi encontrado pelo E-mail informado.',
+					status: error.response.data.status,
 					success: false,
 				}),
 			);
 			return error.response.data;
 		}
+	},
+);
+
+export const logoutUser = createAsyncThunk(
+	'users/logout',
+	async (_, { dispatch }) => {
+		sessionStorage.removeItem('userLogged');
+
+		dispatch(
+			showNotification({
+				status: 'Logout realizado com sucesso!',
+				success: true,
+			}),
+		);
+		return;
 	},
 );
 
@@ -78,8 +90,8 @@ const usersSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		logout: () => {
-			return initialState;
+		logout: (state) => {
+			state.user = initialState.user;
 		},
 	},
 	extraReducers: (builder) => {
@@ -112,6 +124,11 @@ const usersSlice = createSlice({
 		});
 		builder.addCase(loginUser.rejected, (state) => {
 			state.loading = false;
+		});
+
+		// LOGOUT USER
+		builder.addCase(logoutUser.fulfilled, (state) => {
+			state.user = initialState.user;
 		});
 	},
 });

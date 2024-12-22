@@ -16,16 +16,16 @@ const CardAnotations: React.FC<ArchivedProps> = ({ archived }) => {
 						square
 						sx={{
 							height: 'min-content',
-							paddingY: 3,
+							paddingY: 2,
 							marginBottom: 4,
-							margin: 3,
+							margin: 2,
 							borderRadius: '10px',
 						}}
 					>
 						<Grid
 							container
 							justifyContent={'center'}
-							rowSpacing={5}
+							marginX={'10px'}
 						>
 							<ColumnAnotation archived={archived} />
 						</Grid>

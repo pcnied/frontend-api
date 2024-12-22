@@ -6,7 +6,6 @@ import notificationsSlice from './Notification/notificationSlice';
 import usersSlice from './User/usersSlice';
 
 const rootReducer = combineReducers({
-	// contacts:
 	users: usersSlice,
 	modal: modalSlice,
 	anotations: anotationsSlice,

@@ -8,6 +8,7 @@ import { RootState } from '../..';
 import serviceAPI from '../../../configs/services/integration.api';
 import Anotations from '../../../types/Anotations';
 import { showNotification } from '../Notification/notificationSlice';
+import { logoutUser } from '../User/usersSlice';
 
 const anotationsAdapter = createEntityAdapter<Anotations>({
 	selectId: (anotation) => anotation._id,
@@ -30,18 +31,21 @@ export const createAnotation = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Anotação criada com sucesso!',
+					status: response.data.status,
 					success: true,
 				}),
 			);
 
 			return response.data;
 		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.status ||
+				'Erro ao criar a anotação. Tente novamente.';
+
 			dispatch(
 				showNotification({
-					message:
-						'Anotação inválida/incompleta. Tente criar novamente.',
-					success: true,
+					status: errorMessage, // Mensagem de erro retornada pelo middleware
+					success: false,
 				}),
 			);
 			return error.response.data;
@@ -68,7 +72,7 @@ export const updateAnotation = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Recado atualizado com sucesso!',
+					status: 'Recado atualizado com sucesso!',
 					success: true,
 				}),
 			);
@@ -77,7 +81,7 @@ export const updateAnotation = createAsyncThunk(
 		} catch (error: any) {
 			dispatch(
 				showNotification({
-					message: 'Recado não pode ser atualizado. Tente novamente!',
+					status: 'Recado não pode ser atualizado. Tente novamente!',
 					success: true,
 				}),
 			);
@@ -102,7 +106,7 @@ export const deleteAnotation = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					message: 'Anotação deletada com sucesso!',
+					status: 'Anotação deletada com sucesso!',
 					success: true,
 				}),
 			);
@@ -110,8 +114,7 @@ export const deleteAnotation = createAsyncThunk(
 		} catch (error: any) {
 			dispatch(
 				showNotification({
-					message:
-						'Anotação não encontrada para este usuário. Tente novamente!',
+					status: 'Anotação não encontrada para este usuário. Tente novamente!',
 					success: false,
 				}),
 			);
@@ -223,6 +226,12 @@ const anotationsSlice = createSlice({
 		builder.addCase(getAnotation.rejected, (state) => {
 			// Erro no servidor
 			state.loading = false;
+		});
+
+		// LOGOUT
+		builder.addCase(logoutUser.fulfilled, (state) => {
+			// Limpa as anotações quando o usuário faz logout
+			anotationsAdapter.removeAll(state);
 		});
 	},
 });
