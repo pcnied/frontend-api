@@ -44,7 +44,7 @@ export const createAnotation = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					status: errorMessage, // Mensagem de erro retornada pelo middleware
+					status: errorMessage,
 					success: false,
 				}),
 			);
@@ -72,17 +72,21 @@ export const updateAnotation = createAsyncThunk(
 
 			dispatch(
 				showNotification({
-					status: 'Recado atualizado com sucesso!',
+					status: response.data.status,
 					success: true,
 				}),
 			);
 
 			return response.data;
 		} catch (error: any) {
+			const errorMessage =
+				error.response?.data?.status ||
+				'Erro ao editar a anotação. Tente novamente.';
+
 			dispatch(
 				showNotification({
-					status: 'Recado não pode ser atualizado. Tente novamente!',
-					success: true,
+					status: errorMessage,
+					success: false,
 				}),
 			);
 			return error.response.data;
